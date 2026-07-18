@@ -1,8 +1,8 @@
 # Lab Solution: Linux Command Line Essentials
 
-**Student Name:** ___________________________  
-**Date:** ___________________________  
-**Environment Used:** ☐ EC2 ☐ Local Linux ☐ WSL ☐ macOS ☐ Cloud9
+**Student Name:** Julio Cesar Aldana Almanza  
+**Date:** 07/16/2026  
+**Environment Used:** [x] EC2 ☐ Local Linux ☐ WSL ☐ macOS ☐ Cloud9
 
 ---
 
@@ -12,22 +12,22 @@
 
 **Command used to connect:**
 ```bash
-_____________________________________________________________
+ssh -i bootcamp-week2-key.pem ec2-user@52.91.129.138
 ```
 
 **Output of `whoami`:**
 ```
-_____________________________________________________________
+ec2-user
 ```
 
 **Output of `pwd`:**
 ```
-_____________________________________________________________
+/home/ec2-user
 ```
 
 **Output of `uname -a`:**
 ```
-_____________________________________________________________
+Linux ip-172-31-20-213.ec2.internal 6.18.36-69.138.amzn2023.x86_64 #2 SMP PREEMPT_DYNAMIC Thu Jul  9 21:06:10 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ---
@@ -39,13 +39,38 @@ _____________________________________________________________
 **Commands executed:**
 ```bash
 # Navigate to /var/log
-
+[ec2-user@ip-172-31-20-213 ~]$ cd /var/log
+[ec2-user@ip-172-31-20-213 log]$ pwd
+/var/log
 
 # List contents
-
+[ec2-user@ip-172-31-20-213 log]$ ls -l
+total 1224
+lrwxrwxrwx. 1 root   root                 39 Jul 10 01:34 README -> ../../usr/share/doc/systemd/README.logs
+drwxr-xr-x. 3 root   root                 17 Jul 14 07:32 amazon
+drwx------. 2 root   root                 23 Jul 14 07:32 audit
+-rw-rw----. 1 root   utmp                  0 Jul 10 01:34 btmp
+drwxr-x---. 2 chrony chrony            16384 Jul 18 15:30 chrony
+-rw-r-----. 1 root   adm               31036 Jul 18 15:30 cloud-init-output.log
+-rw-r-----. 1 root   adm             1064643 Jul 18 15:30 cloud-init.log
+-rw-r--r--. 1 root   root              20990 Jul 18 15:30 dnf.librepo.log
+-rw-r--r--. 1 root   root              52553 Jul 18 15:30 dnf.log
+-rw-r--r--. 1 root   root               3687 Jul 18 15:30 dnf.rpm.log
+-rw-r--r--. 1 root   root               1320 Jul 18 15:30 hawkey.log
+drwx------. 2 root   root                 41 Jul 14 07:33 httpd
+drwxr-sr-x+ 3 root   systemd-journal      46 Jul 14 07:32 journal
+-rw-rw-r--. 1 root   utmp             292292 Jul 18 15:31 lastlog
+drwx--x--x. 2 root   root                153 Jul 18 15:30 nginx
+drwx------. 2 root   root                  6 Jul 10 01:34 private
+drwxr-xr-x. 2 root   root                 66 Jul 18 15:30 sa
+drwxr-x---. 2 root   root                  6 Oct 17  2025 sssd
+-rw-------. 1 root   root                  0 Jul 10 01:34 tallylog
+-rw-rw-r--. 1 root   utmp              41856 Jul 18 15:31 wtmp
 
 # Return to home directory
-
+[ec2-user@ip-172-31-20-213 log]$ cd ~
+[ec2-user@ip-172-31-20-213 ~]$ pwd
+/home/ec2-user
 ```
 
 **Screenshot 1: /var/log directory listing**
@@ -60,21 +85,49 @@ _____________________________________________________________
 **Commands to create directory structure:**
 ```bash
 # Create cloud-project directory
-
+[ec2-user@ip-172-31-20-213 ~]$ mkdir cloud-project
+[ec2-user@ip-172-31-20-213 ~]$ cd cloud-project
 
 # Create nested directories
+[ec2-user@ip-172-31-20-213 cloud-project]$ mkdir -p app/config
+mkdir -p app/logs
+mkdir -p app/data
+mkdir -p scripts/deployment
+mkdir -p scripts/monitoring
+[ec2-user@ip-172-31-20-213 cloud-project]$ ls -R
+.:
+app  scripts
 
+./app:
+config  data  logs
 
+./app/config:
 
+./app/data:
 
+./app/logs:
 
+./scripts:
+deployment  monitoring
+
+./scripts/deployment:
+
+./scripts/monitoring:
 
 
 # Create files
-
-
-
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ touch app/app.py
+touch app/config/settings.json
+touch app/config/database.conf
+touch scripts/deployment/deploy.sh
+touch README.md
+[ec2-user@ip-172-31-20-213 cloud-project]$ echo "# Cloud Project" > README.md
+echo "This is a sample cloud application." >> README.md
+[ec2-user@ip-172-31-20-213 cloud-project]$ cat > app/app.py << 'EOF'
+#!/usr/bin/env python3
+# Simple cloud application
+print("Hello from the cloud!")
+EOF
 
 
 ```
@@ -91,19 +144,31 @@ _____________________________________________________________
 **Commands for test directory task:**
 ```bash
 # Create test directory with files
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ mkdir test-dir
+[ec2-user@ip-172-31-20-213 test-dir]$ ls
+app.py  settings.json  test.txt
 
 # Make backup copy
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ cp -r test-dir test-dir-backup
 
 # Rename backup
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ mv test-dir-backup/app.py test-dir-backup/app-backup.py
+[ec2-user@ip-172-31-20-213 cloud-project]$ cd test-dir-backup/
+[ec2-user@ip-172-31-20-213 test-dir-backup]$ ls
+app-backup.py  settings.json  test.txt
+[ec2-user@ip-172-31-20-213 test-dir-backup]$ cd ..
+[ec2-user@ip-172-31-20-213 cloud-project]$ mv test-dir-backup test-archive
+[ec2-user@ip-172-31-20-213 cloud-project]$ ls
+README.md  app  scripts  test-archive  test-dir
 
 # Delete backup
+[ec2-user@ip-172-31-20-213 cloud-project]$ rm test-archive/settings.json
+[ec2-user@ip-172-31-20-213 cloud-project]$ rm -r test-archive
 
 
 # Verify final state
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ ls
+README.md  app  scripts  test-dir
 ```
 
 **Screenshot 3: File operations results**
@@ -117,14 +182,14 @@ _____________________________________________________________
 
 **Output of last 3 lines:**
 ```
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+2026-01-14 08:15:30 INFO Backup completed successfully
+2026-01-14 08:20:00 DEBUG Garbage collection triggered
+2026-01-14 08:25:15 INFO Health check: OK
 ```
 
 **Command used:**
 ```bash
-_____________________________________________________________
+[ec2-user@ip-172-31-20-213 cloud-project]$ tail -n 3 app/logs/application.log
 ```
 
 ---
@@ -136,28 +201,27 @@ _____________________________________________________________
 **1. Count ERROR messages:**
 ```bash
 # Command:
-
+grep -c "ERROR" app/logs/application.log
 # Output:
-_____________________________________________________________
+2
 ```
 
 **2. Find WARNING messages with line numbers:**
 ```bash
 # Command:
-
+grep -n "WARNING" app/logs/application.log
 # Output:
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+5:2026-01-14 08:02:45 WARNING Database connection slow
+11:2026-01-14 08:08:45 WARNING Memory usage at 85%
 ```
 
 **3. Extract user login events:**
 ```bash
 # Command:
-
+ grep -r "login" app/
 # Output:
-_____________________________________________________________
-_____________________________________________________________
+app/logs/application.log:2026-01-14 08:01:23 INFO User login: alice@example.com
+app/logs/application.log:2026-01-14 08:03:12 INFO User login: bob@example.com
 ```
 
 **Screenshot 4: grep search results**
@@ -172,21 +236,24 @@ _____________________________________________________________
 **Commands executed:**
 ```bash
 # Create test script
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ touch scripts/test.sh
 
 # Check initial permissions
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ ls -l scripts/test.sh
+-rw-r--r--. 1 ec2-user ec2-user 0 Jul 18 16:18 scripts/test.sh
 
 # Make executable for owner only
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ chmod +x scripts/test.sh
+[ec2-user@ip-172-31-20-213 cloud-project]$ chmod 740 scripts/test.sh
 
 # Verify permissions
-
+[ec2-user@ip-172-31-20-213 cloud-project]$ ls -l scripts/test.sh
+-rwx------. 1 ec2-user ec2-user 0 Jul 18 16:18 scripts/test.sh
 ```
 
-**Initial permissions:** ___________________________
+**Initial permissions:** -rw-r--r--
 
-**Final permissions:** ___________________________
+**Final permissions:** -rwx------
 
 **Screenshot 5: Permission changes**
 ![Permissions](screenshots/05-permissions.png)
@@ -195,17 +262,17 @@ _____________________________________________________________
 
 **Script content:**
 ```bash
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+#!/bin/bash
+echo "Deploying application..."
+# Deployment logic here
 ```
 
 **Permissions set:**
 ```bash
 # Command:
-
+chmod 750 scripts/deployment/deploy.sh
 # Result (ls -l):
-_____________________________________________________________
+-rwxr-x---. 1 ec2-user ec2-user 68 Jul 18 16:24 scripts/deployment/deploy.sh
 ```
 
 ---
@@ -217,29 +284,37 @@ _____________________________________________________________
 **1. Count total lines in all .log files:**
 ```bash
 # Command:
-
+find . -name "*.log" -exec cat {} + | wc -l
 # Result:
-_____________________________________________________________
+20
 ```
 
 **2. Find unique log levels and count:**
 ```bash
 # Command:
-
+find . -name "*.log" -exec cat {} + | awk '{print $3}' | sort | uniq -c | sort -rn
 # Result:
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+      9 INFO
+      3 access
+      2 WARNING
+      2 ERROR
+      2 DEBUG 
 ```
 
 **3. List files sorted by size:**
 ```bash
 # Command:
-
+ls -lS
 # Result:
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+total 20
+-rw-r--r--. 1 ec2-user ec2-user 60 Jul 18 16:27 combined.log
+-rw-r--r--. 1 ec2-user ec2-user 60 Jul 18 16:26 error.log
+-rw-r--r--. 1 ec2-user ec2-user 60 Jul 18 16:27 output.log
+drwxr-xr-x. 5 ec2-user ec2-user 58 Jul 18 15:53 app
+drwxr-xr-x. 4 ec2-user ec2-user 57 Jul 18 16:18 scripts
+drwxr-xr-x. 2 ec2-user ec2-user 57 Jul 18 16:00 test-dir
+-rw-r--r--. 1 ec2-user ec2-user 52 Jul 18 15:43 README.md
+-rw-r--r--. 1 ec2-user ec2-user 24 Jul 18 16:26 test.log
 ```
 
 **Screenshot 6: Pipes and redirects output**
@@ -254,25 +329,26 @@ _____________________________________________________________
 **1. Start long-running command in background:**
 ```bash
 # Command:
-
+sleep 1000 &
 # Output (job number):
-_____________________________________________________________
+[1] 6017
 ```
 
 **2. List all jobs:**
 ```bash
 # Command:
-
+jobs
 # Output:
-_____________________________________________________________
+[1]+  Running                 sleep 1000 &
 ```
 
 **3. Kill the process:**
 ```bash
 # Command:
-
+kill 6017
 # Verification:
-_____________________________________________________________
+[ec2-user@ip-172-31-20-213 cloud-project]$ jobs
+[1]+  Terminated              sleep 1000
 ```
 
 **Screenshot 7: Process management**
@@ -287,31 +363,32 @@ _____________________________________________________________
 **1. Events per user:**
 ```bash
 # Command:
-
+grep -o '"userName":"[^"]*"' ~/aws-logs/cloudtrail.json | sort | uniq -c
 # Result:
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+	  2 "userName":"alice"
+      1 "userName":"bob"
+      2 "userName":"charlie"
 ```
 
 **2. EC2 operations:**
 ```bash
 # Command:
-
+grep "EC2" ~/aws-logs/cloudtrail.json
 # Result:
-_____________________________________________________________
-_____________________________________________________________
+{"eventTime":"2026-01-14T08:15:00Z","eventName":"RunInstances","userIdentity":{"userName":"charlie"},"resources":[{"type":"AWS::EC2::Instance","name":"i-1234567890"}]}
+{"eventTime":"2026-01-14T08:20:00Z","eventName":"TerminateInstances","userIdentity":{"userName":"charlie"},"resources":[{"type":"AWS::EC2::Instance","name":"i-0987654321"}]}
 ```
 
 **3. Unique event types:**
 ```bash
 # Command:
-
+grep -o '"eventName":"[^"]*"' ~/aws-logs/cloudtrail.json | cut -d'"' -f4 | sort | uniq
 # Result:
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+CreateBucket
+DeleteBucket
+PutObject
+RunInstances
+TerminateInstances
 ```
 
 **Screenshot 8: CloudTrail analysis**
@@ -323,27 +400,27 @@ _____________________________________________________________
 ```bash
 # Command: df -h
 
-# Total space: _______________ 
-# Used: _______________
-# Available: _______________
-# Usage %: _______________%
+# Total space: 8.0G 
+# Used: 2.0G
+# Available: 6.0G
+# Usage %: 25%
 ```
 
 **2. Available memory:**
 ```bash
 # Command: free -h
 
-# Total: _______________
-# Used: _______________
-# Free: _______________
+# Total: 912Mi
+# Used: 212Mi
+# Free: 403Mi
 ```
 
 **3. CPU cores:**
 ```bash
 # Command: lscpu
 
-# CPU(s): _______________
-# Model: _______________
+# CPU(s): 2
+# Model: Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
 ```
 
 **Screenshot 9: System resources**
@@ -355,16 +432,16 @@ _____________________________________________________________
 
 **List your 10 most-used commands from this lab:**
 
-1. _______________________________________________
-2. _______________________________________________
-3. _______________________________________________
-4. _______________________________________________
-5. _______________________________________________
-6. _______________________________________________
-7. _______________________________________________
-8. _______________________________________________
-9. _______________________________________________
-10. _______________________________________________
+1. cd 
+2. mkdir
+3. ls -l
+4. chmod permissions file
+5. cat
+6. grep
+7. touch
+8. tail
+9. ps
+10. top
 
 ---
 
@@ -374,54 +451,44 @@ _____________________________________________________________
 
 **Your answer:**
 ```
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+They restrict the edition or access of sensitive files to avoid unexpected changes. 
 ```
 
 ### 2. Why is piping commands together more efficient than intermediate files?
 
 **Your answer:**
 ```
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+You can run a process that requires more than one command in a single line, 
+which automate the file management in a certain way. 
 ```
 
 ### 3. Describe a real-world scenario where you'd use `tail -f`.
 
 **Your answer:**
 ```
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+When you want to monitor the execution of an application in real-time (ideal for testing)
 ```
 
 ### 4. What's the difference between killing with `kill` vs `kill -9`?
 
 **Your answer:**
 ```
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+kill -9 forces the system to terminate a process. 
 ```
 
 ### 5. How does Linux CLI proficiency help with AWS CLI usage?
 
 **Your answer:**
 ```
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+Management of projects using command line instructions help the user to automate processes,
+creation of scripts to run them is possible with CLI. 
 ```
 
 ---
 
 ## Troubleshooting Log
 
-**Did you encounter any issues?** (Yes/No): ______
+**Did you encounter any issues?** (Yes/No): No
 
 **If yes, document:**
 
@@ -435,14 +502,14 @@ _____________________________________________________________
 
 ## Cleanup Confirmation
 
-- [ ] Removed ~/cloud-project directory
-- [ ] Removed ~/aws-logs directory
-- [ ] Verified no leftover files
+- [x] Removed ~/cloud-project directory
+- [x] Removed ~/aws-logs directory
+- [x] Verified no leftover files
 
 **Cleanup commands:**
 ```bash
-_____________________________________________________________
-_____________________________________________________________
+rm -r cloud-project
+rm -r aws-logs
 ```
 
 ---
@@ -453,13 +520,13 @@ _____________________________________________________________
 
 | Skill | Before Lab | After Lab | Notes |
 |-------|-----------|-----------|-------|
-| Filesystem navigation | ___/5 | ___/5 | |
-| File manipulation | ___/5 | ___/5 | |
-| Viewing/searching files | ___/5 | ___/5 | |
-| File permissions | ___/5 | ___/5 | |
-| Pipes and redirects | ___/5 | ___/5 | |
-| Process management | ___/5 | ___/5 | |
-| Log analysis | ___/5 | ___/5 | |
+| Filesystem navigation | 4/5 | 5/5 | |
+| File manipulation | 2/5 | 5/5 | |
+| Viewing/searching files | 1/5 | 5/5 | |
+| File permissions | 1/5 | 5/5 | |
+| Pipes and redirects | 1/5 | 4/5 | |
+| Process management | 2/5 | 4/5 | |
+| Log analysis | 1/5 | 4/5 | |
 
 ---
 
@@ -501,6 +568,6 @@ _____________________________________________________________
 
 **Lab Status:** ☐ Complete ☐ Needs Revision
 
-**Total Time Spent:** ________ minutes
+**Total Time Spent:** 80 minutes
 
-**Submission Date:** ___________________________
+**Submission Date:** 07/18/2026
